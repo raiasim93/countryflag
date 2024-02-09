@@ -42,6 +42,22 @@ app.get("/", async (req, res)=>{
   })
 });
 
+app.post("/submit", (req, res)=>{
+  let answer = req.body.answer.trim();
+  let isCorrect = false;
+  if(currentQuestion.country.toLowerCase() === answer.toLowerCase()){
+    totalCorrect ++;
+    console.log(totalCorrect);
+    isCorrect = true;
+  }
+  nextQuestion();
+  res.render("index.ejs", {
+    question: currentQuestion,
+    totalScore: totalCorrect,
+    wasCorrect: isCorrect,
+  });
+
+});
 async function nextQuestion(){
   const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
   currentQuestion = randomCountry;
