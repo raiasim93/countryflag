@@ -31,6 +31,22 @@ db.query("SELECT * FROM flags", (err, res)=>{
   }
 })
 
+let totalCorrect = 0;
+let currentQuestion = { };
+// setting up home route
+app.get("/", async (req, res)=>{
+  await nextQuestion();
+  console.log(currentQuestion);
+  res.render("index.ejs",{
+    question: currentQuestion
+  })
+});
+
+async function nextQuestion(){
+  const randomCountry = quiz[Math.floor(Math.random() * quiz.length)];
+  currentQuestion = randomCountry;
+}
+
 app.listen(port, ()=>{
   console.log(`Server running on port: ${port}`);
 });
